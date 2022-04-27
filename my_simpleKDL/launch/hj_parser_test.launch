@@ -1,0 +1,23 @@
+<launch>
+  <!-- spawn robot model check, no controller -->
+  <!--  World -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model elfin3 -param robot_description"/>
+ 
+
+  <arg name="model"   default="h2017"/>
+  <arg name="ns"      default="dsr"/>    
+  <arg name="color"   default="blue"/>
+  <arg name="gripper" default="none"/>  
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find dsr_description)/xacro/$(arg model).urdf.xacro' '--inorder' 'namespace:=$(arg ns)' color:=$(arg color) gripper:=$(arg gripper)"/> 
+  
+  <node name="my_simpleKDL" pkg="my_simpleKDL" type="my_simpleKDL" output="screen"/>
+
+
+
+
+  <!--
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" ns="/dsr_phj"/>
+  -->
+</launch>
